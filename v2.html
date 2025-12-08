@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>子齊的滾球個人網站 | Chad's Pétanque</title>
+    <style>
+        /* --- 1. 基礎設定 --- */
+        :root {
+            --bg-color: #f2f2f7; 
+            --text-main: #1d1d1f;
+            --text-gray: #86868b;
+            --accent: #0071e3;
+            --glass: rgba(255, 255, 255, 0.65);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- 2. 背景動畫 --- */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: #f2f2f7;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px); 
+            opacity: 0.7; 
+            animation: float 8s infinite ease-in-out alternate;
+        }
+
+        .orb-1 {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 113, 227, 0.3) 0%, rgba(242, 242, 247, 0) 70%);
+            top: -250px;
+            right: -200px;
+        }
+
+        .orb-2 {
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(175, 82, 222, 0.25) 0%, rgba(242, 242, 247, 0) 70%);
+            bottom: -150px;
+            left: -150px;
+            animation-delay: -4s; 
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 80px) scale(1.05); }
+            100% { transform: translate(120px, 40px) scale(1); }
+        }
+
+        /* --- 3. 導覽列 --- */
+        nav {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.75); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+            transition: all 0.3s;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- 4. Hero Section --- */
+        .hero-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            padding: 60px 0 40px;
+        }
+
+        .hero-image-box {
+            flex: 1;
+            max-width: 450px;
+            position: relative;
+        }
+
+        .hero-image-box img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .hero-image-box img:hover {
+            transform: scale(1.02);
+        }
+
+        .hero-text-box {
+            flex: 1;
+            text-align: left;
+        }
+
+        .hero-text-box h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #000;
+        }
+
+        .education-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            border-left: 3px solid var(--accent);
+            padding-left: 15px;
+        }
+
+        .education-list li {
+            font-size: 14px;
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .education-sub {
+            font-weight: 400;
+            color: var(--text-gray);
+            font-size: 13px;
+        }
+
+        .hero-text-box p {
+            font-size: 15px;
+            color: #444;
+            margin-bottom: 15px;
+            line-height: 1.7;
+            text-align: justify;
+        }
+
+        /* --- 5. 戰情中心 --- */
+        .stats-awards-wrapper {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 80px;
+            align-items: stretch;
+        }
+
+        .mini-dashboard {
+            flex: 4;
+            background: #ffffff; 
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            gap: 15px;
+        }
+
+        .mini-stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px 20px;
+            border-radius: 16px; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent; 
+            cursor: default;
+        }
+        
+        .mini-stat-item:hover {
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+            transform: translateY(-5px) scale(1.02); 
+            border-color: rgba(255, 215, 0, 0.4); 
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-gray);
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .stat-icon {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .stat-value-row {
+            display: flex;
+            align-items: center;
+            gap: 8px; /* 稍微縮小間距，因為有三個數字 */
+            width: 100%;
+        }
+
+        .stat-value-row h3 {
+            font-size: 36px;
+            margin: 0;
+            color: var(--text-main);
+            font-family: "SF Pro Display", sans-serif;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.5px;
+            transition: all 0.3s;
+        }
+        
+        /* ⭐️ 特別修正：球齡區塊的樣式 */
+        .age-container {
+            display: flex;
+            align-items: baseline;
+            gap: 4px; /* 數字跟單位靠近一點 */
+        }
+        
+        .stat-value-row h3.age-number {
+            font-size: 28px; /* 數字大小 */
+        }
+        
+        .stat-value-row small {
+            font-size: 14px; /* 單位大小 */
+            color: #888;
+            margin-right: 8px; /* 單位跟下一個數字的距離 */
+            font-weight: 500;
+        }
+        
+        .mini-stat-item:hover h3,
+        .mini-stat-item:hover small { /* 滑鼠移上去，連單位也一起變色 */
+            background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .mini-subtext {
+            font-size: 12px;
+            color: #666;
+            background: #f2f2f7;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+        
+        .mini-stat-item:hover .mini-subtext {
+            background: #fff8d6;
+            color: #8a6d00;
+        }
+
+        /* 右側：史詩級競賽經歷 */
+        .compact-awards {
+            flex: 6;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .compact-epic-card {
+            background: linear-gradient(145deg, #141416, #2a2a2c);
+            border-radius: 20px;
+            padding: 25px 35px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,215,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .compact-epic-card:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3), 0 0 20px rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.4);
+        }
+
+        .compact-epic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transition: all 0.6s;
+        }
+
+        .compact-epic-card:hover::before {
+            left: 100%;
+        }
+
+        .epic-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .compact-year {
+            font-size: 32px;
+            font-weight: 900;
+            font-family: "SF Pro Display", sans-serif;
+            background: linear-gradient(135deg, #fffcb3 0%, #ffd700 50%, #c29200 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .compact-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #eee;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .compact-medal {
+            font-size: 36px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { gap: 15px; padding: 0 10px; justify-content: center; }
+            .nav-links a { font-size: 13px; }
+            .hero-wrapper { flex-direction: column; text-align: center; gap: 30px; padding-top: 40px; }
+            .hero-text-box { text-align: center; }
+            .hero-text-box p { text-align: left; }
+            .education-list { border-left: none; padding-left: 0; display: inline-block; text-align: left; }
+            .stats-awards-wrapper { flex-direction: column; gap: 20px; }
+            .mini-dashboard { padding: 25px; gap: 15px; }
+            .mini-stat-item { padding: 15px; }
+            .stat-value-row h3 { font-size: 32px; }
+            .stat-value-row h3.age-number { font-size: 24px; }
+            .mini-subtext { font-size: 11px; padding: 5px 10px; }
+            .compact-epic-card { padding: 20px 25px; }
+            .compact-year { font-size: 28px; }
+            .compact-title { font-size: 16px; }
+            .compact-medal { font-size: 32px; }
+            /* 手機上可能要讓球齡換行，不然會太擠 */
+            .age-container { flex-wrap: wrap; }
+        }
+
+        .section-title { font-size: 32px; font-weight: 600; margin: 0 0 20px 0; color: #1d1d1f; }
+        .diary-section { padding: 40px 0; }
+        .diary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+        .diary-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .card-content { padding: 25px; }
+        footer { text-align: center; padding: 40px; color: #86868b; font-size: 12px; border-top: 1px solid #ddd; }
+
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <nav>
+        <div class="nav-links">
+            <a href="#home">首頁</a>
+            <a href="#diary">滾球日誌</a>
+            <a href="#resources">教學資源</a>
+            <a href="#courses">課程介紹</a>
+            <a href="#contact">聯絡我</a>
+        </div>
+    </nav>
+
+    <section id="home" class="container">
+        
+        <div class="hero-wrapper">
+            <div class="hero-image-box">
+                <img src="IMG_4555.jpg" alt="廖子齊 法式滾球選手">
+            </div>
+
+            <div class="hero-text-box">
+                <h1>哈囉，我是廖子齊</h1>
+                <ul class="education-list">
+                    <li>臺北醫學大學 醫學資訊研究所碩士</li>
+                    <li>臺北市立大學 休閒運動管理系學士 <span class="education-sub">/ 法式滾球專長生</span></li>
+                </ul>
+                <p>
+                    我熱愛用科學的角度研究運動，嘗試過各種類型，其中法式滾球最讓我著迷。因為它不僅是技巧，更結合了<b>人體動力學</b>的精準控制、<b>球體運動學</b>的物理碰撞機制。
+                </p>
+                <p>
+                    此外，<b>戰略思考</b>與<b>運動心理學</b>（如：團隊動力、抗壓調節與專注力）更是決勝關鍵。我致力於結合醫學資訊背景與運動數據應用，以科學化的方式解析這項運動，期待與大家分享滾球的奧秘！
+                </p>
+            </div>
+        </div>
+
+        <div class="stats-awards-wrapper">
+            
+            <div class="mini-dashboard">
+                
+                <div class="mini-stat-item">
+                    <span class="stat-label"><span class="stat-icon">⏳</span> 球齡 Experience</span>
+                    <div class="stat-value-row">
+                        <div class="age-container">
+                            <h3 id="age-year" class="age-number">0</h3><small>年</small>
+                            <h3 id="age-month" class="age-number">0</h3><small>月</small>
+                            <h3 id="age-day" class="age-number">0</h3><small>天</small>
+                        </div>
+                        <div class="mini-subtext" id="age-subtext"></div>
+                    </div>
+                </div>
+                
+                <div class="mini-stat-item">
+                    <span class="stat-label"><span class="stat-icon">⚔️</span> 比賽場數 Matches</span>
+                    <div class="stat-value-row">
+                        <h3 id="matches-counter">0</h3>
+                        <div class="mini-subtext">3次國際賽 | 2次全民運</div>
+                    </div>
+                </div>
+                
+                <div class="mini-stat-item">
+                    <span class="stat-label"><span class="stat-icon">▶️</span> YouTube Views</span>
+                    <div class="stat-value-row">
+                        <h3 id="views-counter">0</h3>
+                        <div class="mini-subtext">494+ Subscribers</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="compact-awards">
+                <h2 class="section-title" style="margin-bottom:10px; font-size:20px; color:#666;">競賽經歷</h2>
+                
+                <div class="compact-epic-card">
+                    <div class="epic-info">
+                        <div class="compact-year">2024</div>
+                        <div class="compact-title">亞洲錦標賽 男子單人季軍</div>
+                    </div>
+                    <div class="compact-medal">🥉</div>
+                </div>
+
+                <div class="compact-epic-card">
+                    <div class="epic-info">
+                        <div class="compact-year">2024</div>
+                        <div class="compact-title">全民運動會 男子三人季軍</div>
+                    </div>
+                    <div class="compact-medal">🥉</div>
+                </div>
+
+                <div class="compact-epic-card">
+                    <div class="epic-info">
+                        <div class="compact-year">2022</div>
+                        <div class="compact-title">全民運動會 男子二人冠軍</div>
+                    </div>
+                    <div class="compact-medal">🏆</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="diary" class="container diary-section">
+        <h2 class="section-title">滾球日誌</h2>
+        <p style="text-align:center; color:#888;">(日誌內容讀取中...)</p>
+    </section>
+
+    <footer>
+        &copy; 2025 子齊的滾球個人網站. All rights reserved.
+    </footer>
+
+    <script>
+        // 更新球齡計算與動畫
+        function updatePreciseAge() {
+            const startDate = new Date('2010-09-10');
+            const today = new Date();
+            let years = today.getFullYear() - startDate.getFullYear();
+            let months = today.getMonth() - startDate.getMonth();
+            let days = today.getDate() - startDate.getDate();
+
+            if (days < 0) {
+                months--;
+                let prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            const diffTime = Math.abs(today - startDate);
+            const totalDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
+            // 1. 更新累積天數的小字
+            document.getElementById('age-subtext').innerHTML = `累積 ${totalDays.toLocaleString()} 天`;
+
+            // 2. 啟動三個獨立的跑馬燈動畫
+            animateValue("age-year", 0, years, 2000);
+            animateValue("age-month", 0, months, 2000);
+            animateValue("age-day", 0, days, 2000);
+        }
+
+        // 通用的數字動畫函數
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                
+                // 計算當前數字
+                let current = Math.floor(progress * (end - start) + start).toLocaleString();
+                
+                // 特殊處理：如果是比賽場數，在數字跑完後可以不做動作，或加上+號
+                // 這裡保持純數字，因為我們已經在 CSS 裡做了變色特效
+                
+                obj.innerHTML = current;
+                
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        window.onload = function() {
+            updatePreciseAge(); // 啟動球齡運算
+            animateValue("matches-counter", 0, 126, 2000); 
+            animateValue("views-counter", 0, 148621, 2500); 
+        };
+    </script>
+
+</body>
+</html>

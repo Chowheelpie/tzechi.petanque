@@ -1,0 +1,17 @@
+            <div class="timeline-entry">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date-label">2018 • 大二</div>
+                
+                <div class="diary-content-card">
+                    <h3 class="diary-title">文章標題</h3>
+                    <div class="diary-text">
+                        <p>輸入文章</p>
+                    <div class="diary-gallery">
+                        <div class="photo-frame">
+                            <img src="fig16.webp" alt="ATX"> 
+                            <div class="photo-caption">照片文字</div>
+                        </div> 
+                    </div>          
+                    </div>
+                </div>
+            </div>
