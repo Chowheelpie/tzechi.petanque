@@ -384,7 +384,70 @@
             z-index: 1;
         }
 
-/* --- 📱 手機版專用優化 (Mobile Optimization) --- */
+/* --- 🆕 日誌收合特效元件 --- */
+        
+        /* 1. 限制高度的容器狀態 */
+        .timeline-container.collapsed {
+            max-height: 1000px; /* 預設只顯示的高度 (約 2-3 個故事) */
+            overflow: hidden;   /* 超出的部分藏起來 */
+            position: relative; /* 為了定位漸層遮罩 */
+        }
+
+        /* 2. 漸層遮罩 (Fade Out) - 只有在收合時才顯示 */
+        .timeline-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 300px; /* 漸層高度 */
+            background: linear-gradient(to bottom, rgba(242,242,247,0), rgba(242,242,247,1)); /* 配合你的背景色 #f2f2f7 */
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 40px;
+            pointer-events: none; /* 讓點擊穿透，除非我們把按鈕放在裡面 */
+            opacity: 0;           /* 預設隱藏 */
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        /* 當容器有 .collapsed 類別時，顯示遮罩 */
+        .timeline-container.collapsed .timeline-overlay {
+            opacity: 1;
+            pointer-events: auto; /* 恢復按鈕感應 */
+        }
+
+        /* 3. 展開按鈕樣式 */
+        .expand-btn {
+            background: #fff;
+            color: var(--text-main);
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .expand-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            background: var(--accent);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .expand-btn::after {
+            content: '↓'; /* 向下箭頭 */
+            font-size: 14px;
+        }
+
+            /* --- 📱 手機版專用優化 (Mobile Optimization) --- */
         @media (max-width: 768px) {
             /* 1. 導覽列調整：字體縮小，間距縮小 */
             nav { padding: 10px 0; }
@@ -1108,12 +1171,18 @@
 
     <section id="diary" class="container" style="padding: 80px 0;">
         <h2 class="section-title">滾球日誌</h2>
-        <p style="text-align:center; color:#666; margin-bottom:60px;">
+        <p style="text-align:center; color:#666; margin-bottom:-20px;">
             這裡是我的滾球回憶錄！
         </p>
 
-        <div class="timeline-container">
+        <div class="timeline-container collapsed" id="timelineBox">
 
+            <div class="timeline-overlay" id="timelineOverlay">
+                <button class="expand-btn" onclick="expandDiary()">
+                    展開完整回憶錄日誌
+                </button>
+            </div>
+        
             <div class="timeline-entry">
                 <div class="timeline-dot"></div>
                 <div class="timeline-date-label">2010/9 • 國中</div>
@@ -2535,6 +2604,21 @@
             animateValue("age-month", 0, months, 2000);
             animateValue("age-day", 0, days, 2000);
         }
+
+        // --- 日誌展開功能 ---
+        function expandDiary() {
+            const box = document.getElementById('timelineBox');
+            const overlay = document.getElementById('timelineOverlay');
+            
+            // 1. 移除高度限制
+            box.classList.remove('collapsed');
+            
+            // 2. 隱藏遮罩與按鈕
+            overlay.style.display = 'none';
+            
+            // (選用) 為了體驗更好，可以用 JS 做一個簡單的下滑動畫，或是直接展開皆可
+        }
+
 
         // 通用的數字動畫函數
         function animateValue(id, start, end, duration) {
