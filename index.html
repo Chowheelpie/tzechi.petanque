@@ -442,6 +442,14 @@
             .photo-frame img {
                 max-height: 400px; /* 設定最大高度 */
             }
+
+            /* ⭐️ 新增：手機版隱藏動態光球，改用靜態背景，大幅節省效能 */
+            .ambient-bg {
+                display: none; 
+            }
+            body {
+                background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* 給一個簡單舒服的漸層 */
+            }
         }
 
         .section-title { font-size: 32px; font-weight: 600; margin: 0 0 20px 0; color: #1d1d1f; }
