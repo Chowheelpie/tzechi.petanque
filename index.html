@@ -384,24 +384,64 @@
             z-index: 1;
         }
 
+/* --- 📱 手機版專用優化 (Mobile Optimization) --- */
         @media (max-width: 768px) {
-            .nav-links { gap: 15px; padding: 0 10px; justify-content: center; }
-            .nav-links a { font-size: 13px; }
-            .hero-wrapper { flex-direction: column; text-align: center; gap: 30px; padding-top: 40px; }
-            .hero-text-box { text-align: center; }
-            .hero-text-box p { text-align: left; }
-            .education-list { border-left: none; padding-left: 0; display: inline-block; text-align: left; }
-            .stats-awards-wrapper { flex-direction: column; gap: 20px; }
-            .mini-dashboard { padding: 25px; gap: 15px; }
-            .mini-stat-item { padding: 15px; }
+            /* 1. 導覽列調整：字體縮小，間距縮小 */
+            nav { padding: 10px 0; }
+            .nav-links { gap: 15px; padding: 0 10px; justify-content: center; flex-wrap: wrap; }
+            .nav-links a { font-size: 13px; line-height: 2; } /* 增加行高避免誤觸 */
+
+            /* 2. 主視覺：縮減留白，避免第一眼看太空 */
+            .hero-wrapper { flex-direction: column; text-align: center; gap: 20px; padding-top: 30px; }
+            .hero-text-box { text-align: center; padding: 0 10px; }
+            .hero-text-box h1 { font-size: 32px; } /* 標題縮小 */
+            .hero-text-box p { text-align: left; font-size: 14px; }
+            .education-list { border-left: none; padding-left: 0; display: inline-block; text-align: left; margin-top: 10px; }
+
+            /* 3. 戰情中心：改為直式排列，但保持緊湊 */
+            .stats-awards-wrapper { flex-direction: column; gap: 30px; }
+            
+            .mini-dashboard { padding: 20px; gap: 20px; }
+            .mini-stat-item { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+            /* 讓數據在手機上橫向排列比較好看 */
             .stat-value-row h3 { font-size: 32px; }
-            .stat-value-row h3.age-number { font-size: 24px; }
-            .mini-subtext { font-size: 11px; padding: 5px 10px; }
-            .compact-epic-card { padding: 20px 25px; }
+            .stat-value-row h3.age-number { font-size: 22px; } /* 球齡數字縮小以免折行 */
+            
+            .compact-epic-card { padding: 20px; }
             .compact-year { font-size: 28px; }
             .compact-title { font-size: 16px; }
-            .compact-medal { font-size: 32px; }
-            .age-container { flex-wrap: wrap; }
+
+            /* 4. 滾球日誌：時間軸優化 (關鍵！) */
+            .timeline-container { padding-left: 0; }
+            .timeline-container::before { left: 15px; } /* 線往左移 */
+            .timeline-entry { padding-left: 40px; margin-bottom: 40px; } /* 內容往左靠 */
+            .timeline-dot { left: 6px; width: 16px; height: 16px; border-width: 3px; } /* 圓點縮小 */
+            
+            /* 年份標籤改到卡片正上方，比較整齊 */
+            .timeline-date-label {
+                position: relative;
+                left: 0;
+                top: 0;
+                text-align: left;
+                margin-bottom: 8px;
+                color: var(--accent);
+                font-size: 14px;
+            }
+            
+            .diary-content-card { padding: 20px; border-radius: 16px; }
+            .diary-title { font-size: 20px; }
+            .diary-text { font-size: 15px; text-align: left; } /* 手機版不需要左右對齊，靠左比較好讀 */
+
+            /* 5. 照片與影片：手機版強制單欄顯示，比較大張好看 */
+            .diary-gallery, .video-grid {
+                grid-template-columns: 1fr; /* 強制一欄 */
+                gap: 15px;
+            }
+            
+            /* 讓直式照片在手機上不要太高，以免佔據整個螢幕滑很久 */
+            .photo-frame img {
+                max-height: 400px; /* 設定最大高度 */
+            }
         }
 
         .section-title { font-size: 32px; font-weight: 600; margin: 0 0 20px 0; color: #1d1d1f; }
@@ -674,7 +714,7 @@
         
         <div class="hero-wrapper">
             <div class="hero-image-box">
-                <img src="IMG_4555.jpg" alt="廖子齊 法式滾球選手">
+                <img src="images/IMG_4555.jpeg" alt="廖子齊 法式滾球選手" loading="lazy">
             </div>
 
             <div class="hero-text-box">
@@ -770,7 +810,7 @@
                 
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube-nocookie.com/embed/YhjpSt3V4QU?si=xgd_QqSs95K_N6mt" title="法式滾球Pointing教學" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube-nocookie.com/embed/YhjpSt3V4QU?si=xgd_QqSs95K_N6mt" title="法式滾球Pointing教學" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
                         <div class="video-title">法式滾球Pointing教學（初階）</div>
@@ -780,7 +820,7 @@
 
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube-nocookie.com/embed/QocfTV5g3Q8?si=AviFuepxiQArK4PP" title="高拋球教學" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube-nocookie.com/embed/QocfTV5g3Q8?si=AviFuepxiQArK4PP" title="高拋球教學" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
                         <div class="video-title">法式滾球 - 高拋球教學</div>
@@ -790,7 +830,7 @@
 
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube-nocookie.com/embed/VnigRxvy0xo?si=VH6S-IC2kgfS7t2m" title="不同類型場地解析" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube-nocookie.com/embed/VnigRxvy0xo?si=VH6S-IC2kgfS7t2m" title="不同類型場地解析" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
                         <div class="video-title">不同類型場地解析</div>
@@ -800,7 +840,7 @@
 
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube-nocookie.com/embed/EEW4Xa_VC_c?si=4UOUFqrvpnAz_ZY_" title="練習Pointing的三階段觀察" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube-nocookie.com/embed/EEW4Xa_VC_c?si=4UOUFqrvpnAz_ZY_" title="練習Pointing的三階段觀察" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
                         <div class="video-title">練習Pointing的三階段觀察</div>
@@ -810,7 +850,7 @@
 
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube-nocookie.com/embed/fkVWjh26emM?si=yxRNLQP7VoH17w07" title="如何丟「準」" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube-nocookie.com/embed/fkVWjh26emM?si=yxRNLQP7VoH17w07" title="如何丟「準」" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
                         <div class="video-title">如何丟「準」！你需要思考的議題</div>
@@ -827,7 +867,7 @@
                 
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube-nocookie.com/embed/wxcEySJuuTU?si=PfrdE30G7Gz0ns77" title="Shooting動作拆解" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube-nocookie.com/embed/wxcEySJuuTU?si=PfrdE30G7Gz0ns77" title="Shooting動作拆解" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
                         <div class="video-title">Shooting動作拆解（初階）</div>
@@ -837,7 +877,7 @@
 
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube-nocookie.com/embed/uQZL0zqtr_Q?si=EYM3U4Jnu7y7Plnh" title="為什麼你總是掉球" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube-nocookie.com/embed/uQZL0zqtr_Q?si=EYM3U4Jnu7y7Plnh" title="為什麼你總是掉球" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
                         <div class="video-title">為什麼你總是「掉球」？</div>
@@ -854,7 +894,7 @@
                 
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube-nocookie.com/embed/aTgkkLPmb80?si=uuiHv9QHh35szPZ7" title="2024世錦賽冠軍賽解說" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube-nocookie.com/embed/aTgkkLPmb80?si=uuiHv9QHh35szPZ7" title="2024世錦賽冠軍賽解說" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
                         <div class="video-title">2024 男子世界錦標賽冠軍賽解說</div>
@@ -864,7 +904,7 @@
 
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube-nocookie.com/embed/Z7vvmx7Jmf8?si=pT6i5gdDQR7Rttp2" title="2025馬來西亞公開賽復盤" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube-nocookie.com/embed/Z7vvmx7Jmf8?si=pT6i5gdDQR7Rttp2" title="2025馬來西亞公開賽復盤" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
                         <div class="video-title">2025 馬來西亞雙人公開賽復盤</div>
@@ -874,7 +914,7 @@
 
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube-nocookie.com/embed/1U7cLyPVn0Y?si=xV5MSn7bSXhVZl0m" title="2024亞錦賽回顧" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube-nocookie.com/embed/1U7cLyPVn0Y?si=xV5MSn7bSXhVZl0m" title="2024亞錦賽回顧" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
                         <div class="video-title">2024 亞洲錦標賽回顧</div>
@@ -891,7 +931,7 @@
                 
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube-nocookie.com/embed/C9l_Xfe-VWE?si=nCuhGm7x8iRxxd2P" title="策略初階概念" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube-nocookie.com/embed/C9l_Xfe-VWE?si=nCuhGm7x8iRxxd2P" title="策略初階概念" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
                         <div class="video-title">策略初階概念</div>
@@ -901,7 +941,7 @@
 
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube-nocookie.com/embed/r3k_-ZL0Otk?si=Xpg2arzobH6fnF-E" title="戰術模擬器" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube-nocookie.com/embed/r3k_-ZL0Otk?si=Xpg2arzobH6fnF-E" title="戰術模擬器" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
                         <div class="video-title">戰術模擬器</div>
@@ -918,7 +958,7 @@
                 
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube-nocookie.com/embed/NywbE7-AkqM?si=ETK2Bq7_5Gtt_K0r" title="滾球保養教學" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube-nocookie.com/embed/NywbE7-AkqM?si=ETK2Bq7_5Gtt_K0r" title="滾球保養教學" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
                         <div class="video-title">法式滾球保養教學</div>
@@ -928,7 +968,7 @@
 
                 <div class="video-card">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube-nocookie.com/embed/vlUeC7739a0?si=KHaWm2CInEi7SHqh" title="球具介紹" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube-nocookie.com/embed/vlUeC7739a0?si=KHaWm2CInEi7SHqh" title="球具介紹" allowfullscreen loading="lazy"></iframe>
                     </div>
                     <div class="video-info">
                         <div class="video-title">法式滾球球具介紹</div>
@@ -974,7 +1014,7 @@
                     
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig4.webp" alt="法式滾球" style="height:300px; object-fit: none;">
+                            <img src="images/fig4.webp" alt="法式滾球" style="height:300px; object-fit: none;" loading="lazy">
                             <div class="photo-caption">人生第一組自己的法式滾球</div>
                         </div>
                     </div>
@@ -994,11 +1034,11 @@
 
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="Fig1.webp" alt="全國賽奪冠">
+                            <img src="images/Fig1.webp" alt="全國賽奪冠" loading="lazy">
                             <div class="photo-caption">101年高中全國賽冠軍，我打完的幾個月後才知道是全國賽</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="Fig2.webp" alt="全國賽比賽畫面">
+                            <img src="images/Fig2.webp" alt="全國賽比賽畫面" loading="lazy">
                             <div class="photo-caption">101年全國賽比賽畫面</div>
                         </div>
                     </div>
@@ -1019,11 +1059,11 @@
                     
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig5.webp" alt="場邊沉思">
+                            <img src="images/fig5.webp" alt="場邊沉思" loading="lazy">
                             <div class="photo-caption">102年高中全國賽 輸球沈澱中</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig6.webp" alt="102年高中全國賽亞軍">
+                            <img src="images/fig6.webp" alt="102年高中全國賽亞軍" loading="lazy">
                             <div class="photo-caption">102年高中全國賽 亞軍</div>
                         </div>
                     </div>
@@ -1034,7 +1074,7 @@
 
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig7.webp" alt="102年臺北市中正盃冠軍">
+                            <img src="images/fig7.webp" alt="102年臺北市中正盃冠軍" loading="lazy">
                             <div class="photo-caption">102年臺北市中正盃 冠軍</div>                  
                         </div>
                     </div>
@@ -1054,13 +1094,13 @@
 
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig8.webp" alt="排球場邊的滾球場" style ="height:510px;">
+                            <img src="images/fig8.webp" alt="排球場邊的滾球場" style ="height:510px;" loading="lazy">
                             <div class="photo-caption">高二就在這兩個世界穿梭</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig9.webp" alt="比賽領獎">
+                            <img src="images/fig9.webp" alt="比賽領獎" loading="lazy">
                             <div class="photo-caption">103年高中全國賽冠軍</div>
-                            <img src="fig10.webp" alt="幸運女神">
+                            <img src="images/fig10.webp" alt="幸運女神" loading="lazy">
                             <div class="photo-caption">感謝勝利女神的眷顧</div>
                         </div>
                     </div>
@@ -1081,7 +1121,7 @@
                     
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig11.webp" alt="南港之星" style ="height:500px;width:auto;">
+                            <img src="images/fig11.webp" alt="南港之星" style ="height:500px;width:auto;" loading="lazy">
                             <div class="photo-caption">南港之星 其實可以換成第一名的但我說要永遠記取教訓</div>
                         </div>            
                     </div>
@@ -1100,19 +1140,19 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig12.webp" alt="以前的隊友" style ="height:420px;width:315px;"> 
+                            <img src="images/fig12.webp" alt="以前的隊友" style ="height:420px;width:315px;" loading="lazy"> 
                             <div class="photo-caption">看著以前的隊友在別的球隊練習</div>
                         </div> 
                         <div class="photo-frame">
-                            <img src="fig13.webp" alt="助理教練身份" style ="height:420px;width:315px;">
+                            <img src="images/fig13.webp" alt="助理教練身份" style ="height:420px;width:315px;" loading="lazy">
                             <div class="photo-caption">助理教練身份</div>
                         </div>           
                         <div class="photo-frame">
-                            <img src="fig15.webp" alt="106年臺北市中正盃社會組季軍">
+                            <img src="images/fig15.webp" alt="106年臺北市中正盃社會組季軍" loading="lazy">
                             <div class="photo-caption">106年臺北市中正盃社會組季軍</div>
                         </div> 
                         <div class="photo-frame">
-                            <img src="fig14.webp" alt="偶爾回母校打打球，Mina到大學也長這樣…">
+                            <img src="images/fig14.webp" alt="偶爾回母校打打球，Mina到大學也長這樣…" loading="lazy">
                             <div class="photo-caption">偶爾回母校打打球，Mina到大學也長這樣…</div>
                         </div>
                     </div>
@@ -1130,17 +1170,17 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig16.webp" alt="ATX" style ="height:420px;width:560px;"> 
+                            <img src="images/fig16.webp" alt="ATX" style ="height:420px;width:560px;" loading="lazy"> 
                             <div class="photo-caption">107年換了第二組球ATX，我目前用過最貴的球（10k），新球象徵I’m Back</div>
                         </div> 
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig17.webp" alt="實驗需求"> 
+                            <img src="images/fig17.webp" alt="實驗需求" loading="lazy"> 
                             <div class="photo-caption">實驗需求的各種奇怪直徑及重量的滾球</div>        
                         </div> 
                         <div class="photo-frame">
-                            <img src="fig18.webp" alt="實驗畫面"> 
+                            <img src="images/fig18.webp" alt="實驗畫面" loading="lazy"> 
                             <div class="photo-caption">實驗畫面</div>        
                         </div> 
                     </div>          
@@ -1159,13 +1199,13 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig22.webp" alt="高中同班同學">
+                            <img src="images/fig22.webp" alt="高中同班同學" loading="lazy">
                             <div class="photo-caption">108年大專盃 高中同班同學代表銘傳大學拿下一般組三人冠軍</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig20.webp" alt="射擊四強對戰">
+                            <img src="images/fig20.webp" alt="射擊四強對戰" loading="lazy">
                             <div class="photo-caption">108大專盃 射擊四強對戰複製人周O叡</div>
-                            <img src="fig21.webp" alt="個人射擊賽公開組冠軍">
+                            <img src="images/fig21.webp" alt="個人射擊賽公開組冠軍" loading="lazy">
                             <div class="photo-caption">108年大專盃 個人射擊賽公開組冠軍，開啟每年跟這個裁判合照的故事</div>
                         </div> 
                     </div>          
@@ -1183,7 +1223,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig23.webp" alt="108年鄰舍盃亞軍"> 
+                            <img src="images/fig23.webp" alt="108年鄰舍盃亞軍" loading="lazy"> 
                             <div class="photo-caption">108年鄰舍盃亞軍</div>
                         </div> 
                     </div>          
@@ -1194,11 +1234,11 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig24.webp" alt="108年臺東主委盃第六名"> 
+                            <img src="images/fig24.webp" alt="108年臺東主委盃第六名" loading="lazy"> 
                             <div class="photo-caption">108年臺東主委盃第六名</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig25.webp" alt="108年秋季盃亞軍"> 
+                            <img src="images/fig25.webp" alt="108年秋季盃亞軍" loading="lazy"> 
                             <div class="photo-caption">108年秋季盃亞軍</div>
                         </div> 
                     </div>
@@ -1207,7 +1247,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig26.webp" alt="108年國家隊選拔" style ="height:420px;width:560px;"> 
+                            <img src="images/fig26.webp" alt="108年國家隊選拔" style ="height:420px;width:560px;" loading="lazy"> 
                             <div class="photo-caption">108年國家隊選拔</div>
                         </div>
                     </div>
@@ -1225,7 +1265,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig27.webp" alt="108年欒樹盃冠軍"> 
+                            <img src="images/fig27.webp" alt="108年欒樹盃冠軍" loading="lazy"> 
                             <div class="photo-caption">108年欒樹盃冠軍</div>
                         </div> 
                     </div>
@@ -1234,7 +1274,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig28.webp" alt="109年臺北市選拔男三季軍"> 
+                            <img src="images/fig28.webp" alt="109年臺北市選拔男三季軍" loading="lazy"> 
                             <div class="photo-caption">109年臺北市選拔男三季軍</div>
                         </div> 
                     </div>
@@ -1243,7 +1283,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig29.webp" alt="109年大專盃公開組雙人亞軍"> 
+                            <img src="images/fig29.webp" alt="109年大專盃公開組雙人亞軍" loading="lazy"> 
                             <div class="photo-caption">109年大專盃公開組雙人亞軍</div>
                         </div> 
                     </div>
@@ -1261,13 +1301,13 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig30.webp" alt="110年大專盃公開組一對一亞軍"> 
+                            <img src="images/fig30.webp" alt="110年大專盃公開組一對一亞軍" loading="lazy"> 
                             <div class="photo-caption">110年大專盃公開組一對一亞軍</div>
                         </div>
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig31.webp" alt="110年大專盃公開組個人射擊賽殿軍" style="width:400px;"> 
+                            <img src="images/fig31.webp" alt="110年大專盃公開組個人射擊賽殿軍" style="width:400px;" loading="lazy"> 
                             <div class="photo-caption">110年大專盃公開組個人射擊賽殿軍</div>
                         </div> 
                     </div>
@@ -1276,7 +1316,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig32.webp" alt="110年樂齡盃亞軍"> 
+                            <img src="images/fig32.webp" alt="110年樂齡盃亞軍" loading="lazy"> 
                             <div class="photo-caption">110年樂齡盃亞軍</div>
                         </div> 
                     </div>
@@ -1285,17 +1325,17 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig33.webp" alt="110年月光盃季軍 我們三人最佳成績"> 
+                            <img src="images/fig33.webp" alt="110年月光盃季軍 我們三人最佳成績" loading="lazy"> 
                             <div class="photo-caption">110年月光盃季軍 我們三人最佳成績</div>
                         </div>
                     </div>
                     <div class="diary-gallery"> 
                         <div class="photo-frame">
-                            <img src="fig34.webp" alt="110年新北市青年盃以北醫身份參賽"> 
+                            <img src="images/fig34.webp" alt="110年新北市青年盃以北醫身份參賽" loading="lazy"> 
                             <div class="photo-caption">110年新北市青年盃以北醫身份參賽</div>
                         </div> 
                         <div class="photo-frame">
-                            <img src="fig35.webp" alt="111年換第三組球MATCH+"> 
+                            <img src="images/fig35.webp" alt="111年換第三組球MATCH+" loading="lazy"> 
                             <div class="photo-caption">111年換第三組球MATCH+</div>
                         </div> 
                     </div>
@@ -1313,7 +1353,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig36.webp" alt="111年臺北市選拔雙人賽冠軍"> 
+                            <img src="images/fig36.webp" alt="111年臺北市選拔雙人賽冠軍" loading="lazy"> 
                             <div class="photo-caption">111年臺北市選拔雙人賽冠軍</div>
                         </div> 
                     </div>
@@ -1322,7 +1362,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig37.webp" alt="111年臺北市選拔三人賽八強止步"> 
+                            <img src="images/fig37.webp" alt="111年臺北市選拔三人賽八強止步" loading="lazy"> 
                             <div class="photo-caption">111年臺北市選拔三人賽八強止步</div>
                         </div> 
                     </div>
@@ -1331,19 +1371,19 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig38.webp" alt="111年大專盃公開組個人射擊賽季軍"> 
+                            <img src="images/fig38.webp" alt="111年大專盃公開組個人射擊賽季軍" loading="lazy"> 
                             <div class="photo-caption">111年大專盃公開組個人射擊賽季軍</div>
                         </div>
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig40.webp" alt="賽後跟大家講解比賽的我，真的很感謝北醫的各位" style="width:400px;"> 
+                            <img src="images/fig40.webp" alt="賽後跟大家講解比賽的我，真的很感謝北醫的各位" style="width:400px;"> 
                             <div class="photo-caption">賽後跟大家講解比賽的我，真的很感謝北醫的各位</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig39.webp" alt="111年大專盃公開混雙組季軍"> 
+                            <img src="images/fig39.webp" alt="111年大專盃公開混雙組季軍" loading="lazy"> 
                             <div class="photo-caption">111年大專盃公開混雙組季軍</div>                                     
-                            <img src="fig41.webp" alt="一堆人這屆畢業隔年還有人留著嗎…"> 
+                            <img src="images/fig41.webp" alt="一堆人這屆畢業隔年還有人留著嗎…" loading="lazy"> 
                             <div class="photo-caption">一堆人這屆畢業隔年還有人留著嗎…</div>
                         </div>                    
                     </div>
@@ -1361,13 +1401,13 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig42.webp" alt="111年水源盃雙人賽八強落敗"> 
+                            <img src="images/fig42.webp" alt="111年水源盃雙人賽八強落敗" loading="lazy"> 
                             <div class="photo-caption">111年水源盃雙人賽八強落敗</div>
                         </div> 
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig43.webp" alt="111年青年盃季軍"> 
+                            <img src="images/fig43.webp" alt="111年青年盃季軍" loading="lazy"> 
                             <div class="photo-caption">111年青年盃季軍</div>
                         </div>
                     </div>
@@ -1376,7 +1416,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig44.webp" alt="111年樂齡盃亞軍"> 
+                            <img src="images/fig44.webp" alt="111年樂齡盃亞軍" loading="lazy"> 
                             <div class="photo-caption">111年樂齡盃亞軍</div>
                         </div>
                     </div>
@@ -1385,7 +1425,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig45.webp" alt="111年大獎賽熱身賽冠軍"> 
+                            <img src="images/fig45.webp" alt="111年大獎賽熱身賽冠軍" loading="lazy"> 
                             <div class="photo-caption">111年大獎賽熱身賽冠軍</div>
                         </div>
                     </div>
@@ -1394,7 +1434,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig46.webp" alt="111年嘉義縣主委盃亞軍"> 
+                            <img src="images/fig46.webp" alt="111年嘉義縣主委盃亞軍" loading="lazy"> 
                             <div class="photo-caption">111年嘉義縣主委盃亞軍</div>
                         </div>
                     </div>
@@ -1403,7 +1443,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig47.webp" alt="111年臺東主委盃第五名"> 
+                            <img src="images/fig47.webp" alt="111年臺東主委盃第五名" loading="lazy"> 
                             <div class="photo-caption">111年臺東主委盃第五名</div>
                         </div>
                     </div>
@@ -1412,10 +1452,10 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig48.webp" alt="111年鄰舍盃冠軍，終於有跟周O叡組隊後拿到冠軍"> 
+                            <img src="images/fig48.webp" alt="111年鄰舍盃冠軍，終於有跟周O叡組隊後拿到冠軍" loading="lazy"> 
                             <div class="photo-caption">111年鄰舍盃冠軍，終於有跟周O叡組隊後拿到冠軍</div>
                         <div class="photo-frame">
-                            <img src="fig49.webp" alt="單位名超鬧…主辦單位沒弄好"> 
+                            <img src="images/fig49.webp" alt="單位名超鬧…主辦單位沒弄好" loading="lazy"> 
                             <div class="photo-caption">單位名超鬧…主辦單位沒弄好</div>
                         </div>
                         </div>                        
@@ -1425,7 +1465,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig50.webp" alt="111年國家代表隊選拔王O貿個人射擊冠軍"> 
+                            <img src="images/fig50.webp" alt="111年國家代表隊選拔王O貿個人射擊冠軍" loading="lazy"> 
                             <div class="photo-caption">111年國家代表隊選拔王O貿個人射擊冠軍</div>
                         </div>
                     </div>
@@ -1434,7 +1474,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig51.webp" alt="111年蘆竹盃季軍"> 
+                            <img src="images/fig51.webp" alt="111年蘆竹盃季軍" loading="lazy"> 
                             <div class="photo-caption">111年蘆竹盃季軍</div>
                         </div>                    
                     </div>
@@ -1452,19 +1492,19 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig52.webp" alt="111年全民運男子雙人冠軍，謝謝帶隊教練林O玹那麼信任我們"> 
+                            <img src="images/fig52.webp" alt="111年全民運男子雙人冠軍，謝謝帶隊教練林O玹那麼信任我們" loading="lazy"> 
                             <div class="photo-caption">111年全民運男子雙人冠軍，謝謝帶隊教練林O玹那麼信任我們</div>
                         </div> 
                         <div class="photo-frame">
-                            <img src="fig53.webp" alt="邱O翰的笑容，他是真的很高興XD"> 
+                            <img src="images/fig53.webp" alt="邱O翰的笑容，他是真的很高興XD" loading="lazy"> 
                             <div class="photo-caption">邱O翰的笑容，他是真的很高興XD</div>
                         </div> 
                         <div class="photo-frame">
-                            <img src="fig54.webp" alt="辛苦你了夥伴，輸了這麼多次我們總算拿下最後的勝利"> 
+                            <img src="images/fig54.webp" alt="辛苦你了夥伴，輸了這麼多次我們總算拿下最後的勝利" loading="lazy"> 
                             <div class="photo-caption">辛苦你了夥伴，輸了這麼多次我們總算拿下最後的勝利</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig55.webp" alt="超幸運被攝影師拍到，官網的照片少得可憐"> 
+                            <img src="images/fig55.webp" alt="超幸運被攝影師拍到，官網的照片少得可憐" loading="lazy"> 
                             <div class="photo-caption">超幸運被攝影師拍到，官網的照片少得可憐</div>
                         </div>
                     </div>
@@ -1475,7 +1515,7 @@
                             
                             <div class="video-card">
                                 <div class="video-wrapper">
-                                    <iframe src="https://www.youtube-nocookie.com/embed/IlgSWR1QHzU?si=JaG9PmBbGAePvLzy" title="頒獎時刻" allowfullscreen></iframe>
+                                    <iframe src="https://www.youtube-nocookie.com/embed/IlgSWR1QHzU?si=JaG9PmBbGAePvLzy" title="頒獎時刻" allowfullscreen loading="lazy"></iframe>
                                 </div>
                                 <div class="video-info">
                                     <div class="video-title">頒獎時刻</div>
@@ -1484,7 +1524,7 @@
                             </div>
                             <div class="video-card">
                                 <div class="video-wrapper">
-                                    <iframe src="https://www.youtube-nocookie.com/embed/XsXWn3MdV80?si=FqB_RPOD-WWjD9DQ" title="冠軍賽奪牌畫面" allowfullscreen></iframe>
+                                    <iframe src="https://www.youtube-nocookie.com/embed/XsXWn3MdV80?si=FqB_RPOD-WWjD9DQ" title="冠軍賽奪牌畫面" allowfullscreen loading="lazy"></iframe>
                                 </div>
                                 <div class="video-info">
                                     <div class="video-title">冠軍賽奪牌畫面</div>
@@ -1507,7 +1547,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig56.webp" alt="111年法式滾球大獎賽冠軍"> 
+                            <img src="images/fig56.webp" alt="111年法式滾球大獎賽冠軍" loading="lazy"> 
                             <div class="photo-caption">111年法式滾球大獎賽冠軍</div>
                         </div> 
                     </div>
@@ -1516,7 +1556,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig57.webp" alt="領先顏料盃 輸光XD"> 
+                            <img src="images/fig57.webp" alt="領先顏料盃 輸光XD" loading="lazy"> 
                             <div class="photo-caption">領先顏料盃 輸光XD</div>
                         </div>
                     </div>
@@ -1525,7 +1565,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig59.webp" alt="112年桐花盃"> 
+                            <img src="images/fig59.webp" alt="112年桐花盃" loading="lazy"> 
                             <div class="photo-caption">112年桐花盃</div>
                         </div>
                     </div>
@@ -1534,7 +1574,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig60.webp" alt="112年蘆竹友誼賽"> 
+                            <img src="images/fig60.webp" alt="112年蘆竹友誼賽" loading="lazy"> 
                             <div class="photo-caption">112年蘆竹友誼賽</div>
                         </div>
                     </div>
@@ -1543,11 +1583,11 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig61.webp" alt="112年大專盃北醫合照"> 
+                            <img src="images/fig61.webp" alt="112年大專盃北醫合照" loading="lazy"> 
                             <div class="photo-caption">112年大專盃北醫合照</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig62.webp" alt="112年大專盃 不知道什麼組合合照"> 
+                            <img src="images/fig62.webp" alt="112年大專盃 不知道什麼組合合照" loading="lazy"> 
                             <div class="photo-caption">112年大專盃 不知道什麼組合合照</div>
                         </div>
                     </div>
@@ -1556,7 +1596,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig63.webp" alt="112年蘆竹盃一起提早回家"> 
+                            <img src="images/fig63.webp" alt="112年蘆竹盃一起提早回家" loading="lazy"> 
                             <div class="photo-caption">112年蘆竹盃一起提早回家</div>
                         </div>
                     </div>
@@ -1565,7 +1605,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig64.webp" alt="112鄰舍盃沒有合照的少數畫面"> 
+                            <img src="images/fig64.webp" alt="112鄰舍盃沒有合照的少數畫面" loading="lazy"> 
                             <div class="photo-caption">112鄰舍盃沒有合照的少數畫面</div>
                         </div>
                     </div>
@@ -1574,7 +1614,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig65.webp" alt="112樂齡盃"> 
+                            <img src="images/fig65.webp" alt="112樂齡盃" loading="lazy"> 
                             <div class="photo-caption">112樂齡盃</div>
                         </div>
                     </div>
@@ -1583,11 +1623,11 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig66.webp" alt="112青年盃，明玹肚子是幾個月了？"> 
+                            <img src="images/fig66.webp" alt="112青年盃，明玹肚子是幾個月了？" loading="lazy"> 
                             <div class="photo-caption">112青年盃，明玹肚子是幾個月了？</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig67.webp" alt="喜歡這種合作無間的感覺"> 
+                            <img src="images/fig67.webp" alt="喜歡這種合作無間的感覺" loading="lazy"> 
                             <div class="photo-caption">喜歡這種合作無間的感覺</div>
                         </div>
                     </div>
@@ -1598,7 +1638,7 @@
                             
                             <div class="video-card">
                                 <div class="video-wrapper">
-                                    <iframe src="https://www.youtube-nocookie.com/embed/VaM1PXzhZq8?si=w-z8FmNee17-k1PW" title="112年青年盃冠軍賽轉播畫面" allowfullscreen></iframe>
+                                    <iframe src="https://www.youtube-nocookie.com/embed/VaM1PXzhZq8?si=w-z8FmNee17-k1PW" title="112年青年盃冠軍賽轉播畫面" allowfullscreen loading="lazy"></iframe>
                                 </div>
                                 <div class="video-info">
                                     <div class="video-title">112年青年盃冠軍賽轉播畫面</div>
@@ -1621,13 +1661,13 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig68.webp" alt="112年亞洲盃選拔包辦冠亞"> 
+                            <img src="images/fig68.webp" alt="112年亞洲盃選拔包辦冠亞" loading="lazy"> 
                             <div class="photo-caption">112年亞洲盃選拔包辦冠亞</div>
                         </div> 
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig69.webp" alt="長年的合作夥伴，一直以來他都很努力，在選拔決賽碰頭也是非常特別的經驗，真的替他感到高興" style="width:400px;"> 
+                            <img src="images/fig69.webp" alt="長年的合作夥伴，一直以來他都很努力，在選拔決賽碰頭也是非常特別的經驗，真的替他感到高興" style="width:400px;" loading="lazy"> 
                             <div class="photo-caption">長年的合作夥伴，一直以來他都很努力，在選拔決賽碰頭也是非常特別的經驗，真的替他感到高興</div>
                         </div> 
                     </div>
@@ -1636,23 +1676,23 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig70.webp" alt="機場候機時合照"> 
+                            <img src="images/fig70.webp" alt="機場候機時合照" loading="lazy"> 
                             <div class="photo-caption">機場候機時合照</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig71.webp" alt="超強的越南大叔，但後來查了之後他好像根本不是國家隊的，是個素人😱"> 
+                            <img src="images/fig71.webp" alt="超強的越南大叔，但後來查了之後他好像根本不是國家隊的，是個素人😱" loading="lazy"> 
                             <div class="photo-caption">超強的越南大叔，但後來查了之後他好像根本不是國家隊的，是個素人😱</div>
                         </div>
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig72.webp" alt="恭喜大家拿下National Cup亞軍，表現相當亮眼"> 
+                            <img src="images/fig72.webp" alt="恭喜大家拿下National Cup亞軍，表現相當亮眼" loading="lazy"> 
                             <div class="photo-caption">恭喜大家拿下National Cup亞軍，表現相當亮眼</div>
                         </div>
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig73.webp" alt="三葉草員旅？"> 
+                            <img src="images/fig73.webp" alt="三葉草員旅？" loading="lazy"> 
                             <div class="photo-caption">三葉草員旅？</div>
                         </div>                          
                     </div>
@@ -1663,7 +1703,7 @@
                             
                             <div class="video-card">
                                 <div class="video-wrapper">
-                                    <iframe src="https://www.youtube-nocookie.com/embed/Yw9sv23XCw0?si=XQmznV-Cm05ucBNH" title="2023亞洲盃之旅" allowfullscreen></iframe>
+                                    <iframe src="https://www.youtube-nocookie.com/embed/Yw9sv23XCw0?si=XQmznV-Cm05ucBNH" title="2023亞洲盃之旅" allowfullscreen loading="lazy"></iframe>
                                 </div>
                                 <div class="video-info">
                                     <div class="video-title">2023亞洲盃之旅</div>
@@ -1677,7 +1717,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig74.webp" alt="112年水源盃八強收"> 
+                            <img src="images/fig74.webp" alt="112年水源盃八強收" loading="lazy"> 
                             <div class="photo-caption">112年水源盃八強收</div>
                         </div>
                     </div>
@@ -1686,11 +1726,11 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig75.webp" alt="112年宜蘭頭城聯誼賽第二名"> 
+                            <img src="images/fig75.webp" alt="112年宜蘭頭城聯誼賽第二名" loading="lazy"> 
                             <div class="photo-caption">112年宜蘭頭城聯誼賽第二名</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig76.webp" alt="112年月光盃，忘記輸在哪但也是大家一起輸"> 
+                            <img src="images/fig76.webp" alt="112年月光盃，忘記輸在哪但也是大家一起輸" loading="lazy"> 
                             <div class="photo-caption">112年月光盃，忘記輸在哪但也是大家一起輸</div>
                         </div>
                     </div>
@@ -1699,7 +1739,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig77.webp" alt="112年彰化理事長盃第三名"> 
+                            <img src="images/fig77.webp" alt="112年彰化理事長盃第三名" loading="lazy"> 
                             <div class="photo-caption">112年彰化理事長盃第三名</div>
                         </div>
                     </div>
@@ -1708,7 +1748,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig78.webp" alt="忘記什麼盃賽，周O叡他們準時到但賽務提前唱名，第一場被視同棄賽。"> 
+                            <img src="images/fig78.webp" alt="忘記什麼盃賽，周O叡他們準時到但賽務提前唱名，第一場被視同棄賽。" loading="lazy"> 
                             <div class="photo-caption">忘記什麼盃賽，周O叡他們準時到但賽務提前唱名，第一場被視同棄賽。</div>
                         </div>
                     </div>
@@ -1717,11 +1757,11 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig79.webp" alt="113年宜蘭宗宗盃第四名"> 
+                            <img src="images/fig79.webp" alt="113年宜蘭宗宗盃第四名" loading="lazy"> 
                             <div class="photo-caption">113年宜蘭宗宗盃第四名</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig80.webp" alt="48隊很盛大，可惜的是預賽都取一隊而已，遠道而來的球友們壓力可大了。"> 
+                            <img src="images/fig80.webp" alt="48隊很盛大，可惜的是預賽都取一隊而已，遠道而來的球友們壓力可大了。" loading="lazy"> 
                             <div class="photo-caption">48隊很盛大，可惜的是預賽都取一隊而已，遠道而來的球友們壓力可大了。</div>
                         </div>
                     </div>
@@ -1738,13 +1778,13 @@
                         <p>準備很久的臺北市選拔賽，冬天超冷還冒著風雨每天在天母練球。想起上一屆跟周Ｏ叡時他前三屆雙人都沒選上（名次四->三->二），所以我常常告訴自己不要雷到他，因為按照順序要拿到第一名了😂。今年大換血跟蘇Ｏ郡組隊雙人組及三人組，他也是連續三屆（六年）都沒選上代表隊，怎麼我都要背負這麼重大的任務@@，同一時間我已經是個上班族所以只能利用週末的時間全天練習，最後四強及冠軍賽蘇O郡真的是超群的表現，瘋狂的卡轟，但對手吳O芋也很厲害一直命中及卡轟，這真的是我打過數一數二刺激的比賽，還好兩年後的我真的有成長了一些，最終穩下來以13比10拿下今年的雙人代表權。隔日加入了王Ｏ貿，一直以來他都是個骰子型選手，我們大膽的讓他去打射手的結果就是他骰到了1，什麼都打不中就算了不知道他在緊張什麼==（沒練球還敢緊張啊…），後來還是換回蘇Ｏ郡去射擊，一路上的比分都滿驚險的最後一局才分出勝負，同樣拿下三人代表，這是我第一次辦到同時選上兩項目。前兩天都打滿賽程，晚上的睡眠其實都很緊繃沒睡太多，最後一天的射擊賽，我感覺到自己專注力已經快不行，預賽打了24分還以為要被淘汰了，結果第二輪啥都不想只想著丟好高度，動作胡亂撇還被我貓了一個37分，到了四強打了14分輸掉（對手16分），還有一顆Jack差3公分出圈，大概是老天覺得我還有不足，留給下一次的我好好加油吧！</p>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig81.webp" alt="取得雙人代表後，蘇Ｏ郡落下眼淚，畢竟已經錯過好幾屆，如今達成目標"> 
+                            <img src="images/fig81.webp" alt="取得雙人代表後，蘇Ｏ郡落下眼淚，畢竟已經錯過好幾屆，如今達成目標" loading="lazy"> 
                             <div class="photo-caption">取得雙人代表後，蘇Ｏ郡落下眼淚，畢竟已經錯過好幾屆，如今達成目標</div>
                         </div> 
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig82.webp" alt="每年選人選教練都會血流成河，今年也不意外👍，可以的話我希望根本不要有選人的制度"> 
+                            <img src="images/fig82.webp" alt="每年選人選教練都會血流成河，今年也不意外👍，可以的話我希望根本不要有選人的制度" loading="lazy"> 
                             <div class="photo-caption">每年選人選教練都會血流成河，今年也不意外👍，可以的話我希望根本不要有選人的制度</div>
                         </div> 
                     </div>
@@ -1755,7 +1795,7 @@
                             
                             <div class="video-card">
                                 <div class="video-wrapper">
-                                    <iframe src="https://www.youtube.com/embed/GiY4tT8ugS4?si=FkwafySP4HBQxUDg" title="113臺北市選拔雙人冠軍賽精華" allowfullscreen></iframe>
+                                    <iframe src="https://www.youtube.com/embed/GiY4tT8ugS4?si=FkwafySP4HBQxUDg" title="113臺北市選拔雙人冠軍賽精華" allowfullscreen loading="lazy"></iframe>
                                 </div>
                                 <div class="video-info">
                                     <div class="video-title">113臺北市選拔雙人冠軍賽精華</div>
@@ -1778,28 +1818,28 @@
                         <p>113年鄰舍盃，感謝銘傳大學黃O娟老師借了吳O蓁給三葉草參賽，雖然他最後給我大當機，真的是心態有待加強😂。</p>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig83.webp" alt="113鄰舍盃 冠軍及亞軍"> 
+                            <img src="images/fig83.webp" alt="113鄰舍盃 冠軍及亞軍" loading="lazy"> 
                             <div class="photo-caption">113鄰舍盃 冠軍及亞軍</div>
                         </div> 
                     </div>
                         <p>蘆竹盃跟林O玹難得組隊，因為全民運的關係所以接下來的比賽都全部跟蘇O郡組隊。</p>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig84.webp" alt="113蘆竹盃 第三名"> 
+                            <img src="images/fig84.webp" alt="113蘆竹盃 第三名" loading="lazy"> 
                             <div class="photo-caption">113蘆竹盃 第三名</div>
                         </div> 
                     </div>
                         <p>畢業後兩年一樣有來現場觀看大專盃。</p>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig85.webp" alt="加油吧兩位替補"> 
+                            <img src="images/fig85.webp" alt="加油吧兩位替補" loading="lazy"> 
                             <div class="photo-caption">加油吧兩位替補</div>
                         </div> 
                     </div>
                         <p>113年的樂齡盃闕O濂強勢回歸（又跟我同隊），不意外的是第三次樂齡盃合體一樣冠軍賽開搞，最後一局落後一分Jack被擺邊線就算了，還直接po一顆貼Jack，真的是被他打敗，笑到我很想直接躺在地上笑。真的謝謝他連續三次樂齡盃組隊都送我第二名榮耀。</p>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig86.webp" alt="113年樂齡盃 第二名"> 
+                            <img src="images/fig86.webp" alt="113年樂齡盃 第二名" loading="lazy"> 
                             <div class="photo-caption">113年樂齡盃 第二名</div>
                         </div> 
                     </div>
@@ -1810,7 +1850,7 @@
                             
                             <div class="video-card">
                                 <div class="video-wrapper">
-                                    <iframe src="https://www.youtube.com/embed/DUNziBqAfDc?si=L3i0fFAntOswO1ML" title="經典不能只有我看到" allowfullscreen></iframe>
+                                    <iframe src="https://www.youtube.com/embed/DUNziBqAfDc?si=L3i0fFAntOswO1ML" title="經典不能只有我看到" allowfullscreen loading="lazy"></iframe>
                                 </div>
                                 <div class="video-info">
                                     <div class="video-title">經典不能只有我看到</div>
@@ -1822,20 +1862,20 @@
                         <p>青年盃前兩天我都在台中出差加班到非常晚，隔天一早又參加比賽，身體跟精神都非常勞累的狀態下，我真的覺得自己表現太差，甚至會發生一些我平時根本不太會犯的低級錯誤，拿了一個第三名，開始思考工作真的要這麼累到影響我打球的生活嗎</p>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig87.webp" alt="113年青年盃 第一名 第三名"> 
+                            <img src="images/fig87.webp" alt="113年青年盃 第一名 第三名" loading="lazy"> 
                             <div class="photo-caption">113年青年盃 第一名 第三名</div>
                         </div> 
                     </div>                    
                         <p>泛太平洋盃來了一些別國的選手（馬來西亞、日本、新加坡、香港、泰國等…），算是第一次跟別國的選手打球覺得相當新鮮。比賽過程中我已經明顯感覺到自己不如之前的狀態，早早被淘汰後我還是有留下來看完所有比賽，最後看到冠軍賽銘傳的甘O恩他們跟泰國的世界冠軍選手對決，覺得相當感動，好希望能站在場上跟他們拼看看，這一天我開始萌生了離職的念頭。</p>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig88.webp" alt="泛太平洋盃 與馬來西亞代表隊合影"> 
+                            <img src="images/fig88.webp" alt="泛太平洋盃 與馬來西亞代表隊合影" loading="lazy"> 
                             <div class="photo-caption">泛太平洋盃 與馬來西亞代表隊合影</div>
                         </div> 
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig89.webp" alt="與世界冠軍合影" style="width:400px;"> 
+                            <img src="images/fig89.webp" alt="與世界冠軍合影" style="width:400px;" loading="lazy"> 
                             <div class="photo-caption">與世界冠軍合影</div>
                         </div> 
                     </div>                    
@@ -1846,7 +1886,7 @@
                             
                             <div class="video-card">
                                 <div class="video-wrapper">
-                                    <iframe src="https://www.youtube.com/embed/kveVjNWq5FM?si=eD_MkndLpG6rGiqO&amp;start=536" title="泛太平洋盃轉播" allowfullscreen></iframe>
+                                    <iframe src="https://www.youtube.com/embed/kveVjNWq5FM?si=eD_MkndLpG6rGiqO&amp;start=536" title="泛太平洋盃轉播" allowfullscreen loading="lazy"></iframe>
                                 </div>
                                 <div class="video-info">
                                     <div class="video-title">泛太平洋盃轉播</div>
@@ -1858,18 +1898,18 @@
                         <p>在泛太平洋比賽期間，跟林O庭他們隨口聊聊了全民運的事，就決定7月要一起出發來屏東場勘球場，真的是非常用心呢！結果球場完全還沒弄好而且還有超多野狗，只好跑來高雄的球場打打球然後逛街吃美食（意外變成高雄遊）。最後送他們去高鐵站還真的是分秒必爭，最後一分鐘送他們到車站居然成功搭上車了，太好笑。</p>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig90.webp" alt="高雄榕之屋球場練球"> 
+                            <img src="images/fig90.webp" alt="高雄榕之屋球場練球" loading="lazy"> 
                             <div class="photo-caption">高雄榕之屋球場練球</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig91.webp" alt="屏東麟洛球場場勘"> 
+                            <img src="images/fig91.webp" alt="屏東麟洛球場場勘" loading="lazy"> 
                             <div class="photo-caption">屏東麟洛球場場勘</div>
                         </div>                         
                     </div>
                         <p>8月初即將迎來兩場選拔賽，一場是亞洲混雙選拔一場是世界男三選拔，在這之前常常來蘆竹練一下球，被泰國人們找打比賽，還一直不停上訴😂。</p>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig92.webp" alt="蘆竹練習賽"> 
+                            <img src="images/fig92.webp" alt="蘆竹練習賽" loading="lazy"> 
                             <div class="photo-caption">蘆竹練習賽</div>
                         </div>
                     </div>                    
@@ -1888,7 +1928,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig93.webp" alt="謝謝雨純老師到場加油，也在我低潮時說了一些讓我有力量的話，非常感動！"> 
+                            <img src="images/fig93.webp" alt="謝謝雨純老師到場加油，也在我低潮時說了一些讓我有力量的話，非常感動！" loading="lazy"> 
                             <div class="photo-caption">謝謝雨純老師到場加油，也在我低潮時說了一些讓我有力量的話，非常感動！</div>
                         </div> 
                     </div>
@@ -1897,7 +1937,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig94.webp" alt="113世錦賽選拔 與射擊代表李O德合影" style="width:400px;"> 
+                            <img src="images/fig94.webp" alt="113世錦賽選拔 與射擊代表李O德合影" style="width:400px;" loading="lazy"> 
                             <div class="photo-caption">113世錦賽選拔 與射擊代表李O德合影</div>
                         </div> 
                     </div>                           
@@ -1915,17 +1955,17 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig95.webp" alt="9月份台北市代表隊訪視"> 
+                            <img src="images/fig95.webp" alt="9月份台北市代表隊訪視" loading="lazy"> 
                             <div class="photo-caption">9月份台北市代表隊訪視</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig96.webp" alt="每天去健身房報到，重訓、體能訓練、伸展都嚴格執行"> 
+                            <img src="images/fig96.webp" alt="每天去健身房報到，重訓、體能訓練、伸展都嚴格執行" loading="lazy"> 
                             <div class="photo-caption">每天去健身房報到，重訓、體能訓練、伸展都嚴格執行</div>
                         </div>  
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig97.webp" alt="113年全民運授旗典禮，今年的白色上衣真的有夠透明…"> 
+                            <img src="images/fig97.webp" alt="113年全民運授旗典禮，今年的白色上衣真的有夠透明…" loading="lazy"> 
                             <div class="photo-caption">113年全民運授旗典禮，今年的白色上衣真的有夠透明…</div>          
                         </div>
                     </div>
@@ -1934,7 +1974,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig98.webp" alt="113全民運男子三人季軍"> 
+                            <img src="fig98.webp" alt="113全民運男子三人季軍" loading="lazy"> 
                             <div class="photo-caption">113全民運男子三人季軍</div>
                         </div>
                     </div>
@@ -1945,7 +1985,7 @@
                             
                             <div class="video-card">
                                 <div class="video-wrapper">
-                                    <iframe src="https://www.youtube-nocookie.com/embed/-pvgwEHEVzQ?si=0GINciGIPmYcorDI" title="113全民運比賽畫面" allowfullscreen></iframe>
+                                    <iframe src="https://www.youtube-nocookie.com/embed/-pvgwEHEVzQ?si=0GINciGIPmYcorDI" title="113全民運比賽畫面" allowfullscreen loading="lazy"></iframe>
                                 </div>
                                 <div class="video-info">
                                     <div class="video-title">113全民運比賽畫面</div>
@@ -1954,7 +1994,7 @@
                             </div>
                             <div class="video-card">
                                 <div class="video-wrapper">
-                                    <iframe src="https://www.youtube-nocookie.com/embed/NsUJcDpWFXY?si=HMqmIYdkIMgXWvjT" title="113全民運頒獎時刻" allowfullscreen></iframe>
+                                    <iframe src="https://www.youtube-nocookie.com/embed/NsUJcDpWFXY?si=HMqmIYdkIMgXWvjT" title="113全民運頒獎時刻" allowfullscreen loading="lazy"></iframe>
                                 </div>
                                 <div class="video-info">
                                     <div class="video-title">113全民運頒獎時刻</div>
@@ -1977,13 +2017,13 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig99.webp" alt="第一次穿上中華隊戰袍"> 
+                            <img src="images/fig99.webp" alt="第一次穿上中華隊戰袍" loading="lazy"> 
                             <div class="photo-caption">第一次穿上中華隊戰袍</div>
                         </div> 
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig100.webp" alt="中華1隊跟中華2隊，我還滿高的麻XD"> 
+                            <img src="images/fig100.webp" alt="中華1隊跟中華2隊，我還滿高的麻XD" loading="lazy"> 
                             <div class="photo-caption">中華1隊跟中華2隊，我還滿高的麻XD</div>
                         </div> 
                     </div>
@@ -1992,21 +2032,21 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig101.webp" alt="真的好想拿冠軍獎盃啊！"> 
+                            <img src="images/fig101.webp" alt="真的好想拿冠軍獎盃啊！" loading="lazy"> 
                             <div class="photo-caption">真的好想拿冠軍獎盃啊！</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig102.webp" alt="一定要跟偶像們合照一下的吧！🇻🇳"> 
+                            <img src="images/fig102.webp" alt="一定要跟偶像們合照一下的吧！🇻🇳" loading="lazy"> 
                             <div class="photo-caption">一定要跟偶像們合照一下的吧！🇻🇳</div>
                         </div> 
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig103.webp" alt="謝謝一路上一直支持及鼓勵我的老師們"> 
+                            <img src="images/fig103.webp" alt="謝謝一路上一直支持及鼓勵我的老師們" loading="lazy"> 
                             <div class="photo-caption">謝謝一路上一直支持及鼓勵我的老師們</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig104.webp" alt="儘管我從來不是他們的學生"> 
+                            <img src="images/fig104.webp" alt="儘管我從來不是他們的學生" loading="lazy"> 
                             <div class="photo-caption">儘管我從來不是他們的學生</div>
                         </div>
                     </div>
@@ -2016,19 +2056,19 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig105.webp" alt="謝謝阿義老師這段時間的指導，獲益良多。"> 
+                            <img src="images/fig105.webp" alt="謝謝阿義老師這段時間的指導，獲益良多。" loading="lazy"> 
                             <div class="photo-caption">謝謝阿義老師這段時間的指導，獲益良多。</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig106.webp" alt="小小遺憾是頒獎不是拿中華會旗，因為另一面要拿去升旗…"> 
+                            <img src="images/fig106.webp" alt="小小遺憾是頒獎不是拿中華會旗，因為另一面要拿去升旗…" loading="lazy"> 
                             <div class="photo-caption">小小遺憾是頒獎不是拿中華會旗，因為另一面要拿去升旗…</div>
-                            <img src="fig108.webp" alt="柬埔寨好朋友Samphors (L)跟Chhan Dara (R)，希望未來能再見到。"> 
+                            <img src="images/fig108.webp" alt="柬埔寨好朋友Samphors (L)跟Chhan Dara (R)，希望未來能再見到。" loading="lazy"> 
                             <div class="photo-caption">柬埔寨好朋友Samphors (L)跟Chhan Dara (R)，希望未來能再見到。</div>
                         </div> 
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig107.webp" alt="謝謝中華1隊的大家，這段練球時光真的很快樂！"> 
+                            <img src="fig107.webp" alt="謝謝中華1隊的大家，這段練球時光真的很快樂！" loading="lazy"> 
                             <div class="photo-caption">謝謝中華1隊的大家，這段練球時光真的很快樂！</div>
                         </div> 
                     </div>
@@ -2039,7 +2079,7 @@
                             
                             <div class="video-card">
                                 <div class="video-wrapper">
-                                    <iframe src="https://www.youtube-nocookie.com/embed/q3dYY8ADosk?si=FO1LNSV4qnS40Jpc" title="2024亞錦賽我的比賽精華" allowfullscreen></iframe>
+                                    <iframe src="https://www.youtube-nocookie.com/embed/q3dYY8ADosk?si=FO1LNSV4qnS40Jpc" title="2024亞錦賽我的比賽精華" allowfullscreen loading="lazy"></iframe>
                                 </div>
                                 <div class="video-info">
                                     <div class="video-title">2024亞錦賽我的比賽精華</div>
@@ -2062,13 +2102,13 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig111.JPG" alt="日本朋友合照"> 
+                            <img src="images/fig111.jpeg" alt="日本朋友合照" loading="lazy"> 
                             <div class="photo-caption">日本朋友合照</div>
                         </div> 
                         <div class="photo-frame">
-                            <img src="fig110.jpeg" alt="冠軍戰討論戰術中"> 
+                            <img src="images/fig110.jpeg" alt="冠軍戰討論戰術中" loading="lazy"> 
                             <div class="photo-caption">冠軍戰討論戰術中</div>
-                            <img src="fig109.jpeg" alt="幫俞O熏籌世運巡迴賽旅費"> 
+                            <img src="images/fig109.jpeg" alt="幫俞O熏籌世運巡迴賽旅費" loading="lazy"> 
                             <div class="photo-caption">幫俞O熏籌世運巡迴賽旅費</div>
                         </div> 
                     </div>
@@ -2077,11 +2117,11 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig112.JPG" alt="與陳O甫合照"> 
+                            <img src="images/fig112.jpeg" alt="與陳O甫合照" loading="lazy"> 
                             <div class="photo-caption">與陳O甫合照</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig113.jpeg" alt="台科朋友合照"> 
+                            <img src="images/fig113.jpeg" alt="台科朋友合照" loading="lazy"> 
                             <div class="photo-caption">台科朋友合照</div>
                         </div>                   
                     </div>
@@ -2090,13 +2130,13 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig115.jpeg" alt="114蘆竹盃"> 
+                            <img src="images/fig115.jpeg" alt="114蘆竹盃" loading="lazy"> 
                             <div class="photo-caption">114蘆竹盃</div>
                         </div>
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig114.jpeg" alt="我的球具們"> 
+                            <img src="images/fig114.jpeg" alt="我的球具們" loading="lazy"> 
                             <div class="photo-caption">我的球具們</div>
                         </div>                   
                     </div>
@@ -2105,13 +2145,13 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig116.jpeg" alt="樂齡盃與泰國朋友合照"> 
+                            <img src="images/fig116.jpeg" alt="樂齡盃與泰國朋友合照" loading="lazy"> 
                             <div class="photo-caption">樂齡盃與泰國朋友合照</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig117.jpeg" alt="O驥猛哦"> 
+                            <img src="images/fig117.jpeg" alt="O驥猛哦" loading="lazy"> 
                             <div class="photo-caption">O驥猛哦</div>
-                            <img src="fig118.JPG" alt="114樂齡盃倒光的大家"> 
+                            <img src="images/fig118.jpeg" alt="114樂齡盃倒光的大家" loading="lazy"> 
                             <div class="photo-caption">114樂齡盃倒光的大家</div>
                         </div>
                     </div>                    
@@ -2128,17 +2168,17 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig119.JPG" alt="台南區長盃冠軍"> 
+                            <img src="images/fig119.jpeg" alt="台南區長盃冠軍" loading="lazy"> 
                             <div class="photo-caption">台南區長盃冠軍</div>
                         </div>
                     </div>
                     <div class="diary-gallery"> 
                         <div class="photo-frame">
-                            <img src="fig120.jpeg" alt="邪惡帝國？"> 
+                            <img src="images/fig120.jpeg" alt="邪惡帝國？" loading="lazy"> 
                             <div class="photo-caption">邪惡帝國？</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig121.JPG" alt="彰化市長盃殿軍"> 
+                            <img src="images/fig121.jpeg" alt="彰化市長盃殿軍" loading="lazy"> 
                             <div class="photo-caption">彰化市長盃殿軍</div>
                         </div> 
                     </div>
@@ -2147,7 +2187,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig122.jpeg" alt="台南盛夏滾動盃第五名"> 
+                            <img src="images/fig122.jpeg" alt="台南盛夏滾動盃第五名" loading="lazy"> 
                             <div class="photo-caption">台南盛夏滾動盃第五名</div>
                         </div> 
                     </div>
@@ -2156,7 +2196,7 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig123.JPG" alt="金牌好射盃冠軍"> 
+                            <img src="images/fig123.jpeg" alt="金牌好射盃冠軍" loading="lazy"> 
                             <div class="photo-caption">金牌好射盃冠軍</div>
                         </div> 
                     </div>
@@ -2165,11 +2205,11 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig124.JPG" alt="台東主委盃冠軍"> 
+                            <img src="images/fig124.jpeg" alt="台東主委盃冠軍" loading="lazy"> 
                             <div class="photo-caption">台東主委盃冠軍</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig125.jpeg" alt="獎品排球器"> 
+                            <img src="images/fig125.jpeg" alt="獎品排球器" loading="lazy"> 
                             <div class="photo-caption">獎品排球器</div>
                         </div> 
                     </div>           
@@ -2187,43 +2227,43 @@
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig126.JPG" alt="馬來西亞公開賽十六強止步"> 
+                            <img src="images/fig126.jpeg" alt="馬來西亞公開賽十六強止步" loading="lazy"> 
                             <div class="photo-caption">馬來西亞公開賽十六強止步</div>
                         </div> 
                         <div class="photo-frame">
-                            <img src="fig127.jpeg" alt="十六強的對手泰國Condo"> 
+                            <img src="images/fig127.jpeg" alt="十六強的對手泰國Condo" loading="lazy"> 
                             <div class="photo-caption">十六強的對手泰國Condo</div>
                         </div> 
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig130.JPG" alt="熱情的馬來西亞華人球友"> 
+                            <img src="images/fig130.jpeg" alt="熱情的馬來西亞華人球友" loading="lazy"> 
                             <div class="photo-caption">熱情的馬來西亞華人球友</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig128.JPG" alt="新加坡球友 說看過我Youtube教學"> 
+                            <img src="images/fig128.jpeg" alt="新加坡球友 說看過我Youtube教學" loading="lazy"> 
                             <div class="photo-caption">新加坡球友 說看過我Youtube教學</div>
-                            <img src="fig129.jpeg" alt="去年亞錦賽對決的馬來西亞選手"> 
+                            <img src="images/fig129.jpeg" alt="去年亞錦賽對決的馬來西亞選手" loading="lazy"> 
                             <div class="photo-caption">去年亞錦賽對決的馬來西亞選手</div>                               
                         </div> 
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig131.jpeg" alt="很親民的馬達加斯加選手"> 
+                            <img src="images/fig131.jpeg" alt="很親民的馬達加斯加選手" loading="lazy"> 
                             <div class="photo-caption">很親民的馬達加斯加選手</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig132.JPG" alt="找Ratchata打了一場"> 
+                            <img src="images/fig132.jpeg" alt="找Ratchata打了一場" loading="lazy"> 
                             <div class="photo-caption">找Ratchata打了一場</div>
                         </div>
                     </div>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig133.jpeg" alt="2024射擊世界冠軍"> 
+                            <img src="images/fig133.jpeg" alt="2024射擊世界冠軍" loading="lazy"> 
                             <div class="photo-caption">2024射擊世界冠軍</div>
                         </div>
                         <div class="photo-frame">
-                            <img src="fig134.jpeg" alt="馬達加斯加選手"> 
+                            <img src="images/fig134.jpeg" alt="馬達加斯加選手" loading="lazy"> 
                             <div class="photo-caption">馬達加斯加選手</div>
                         </div> 
                     </div>
@@ -2234,7 +2274,7 @@
                             
                             <div class="video-card">
                                 <div class="video-wrapper">
-                                    <iframe src="https://www.youtube-nocookie.com/embed/DatC-zM-qeU?si=yi5KYMK4Ln3801L1" title="2025馬來西亞公開賽精華" allowfullscreen></iframe>
+                                    <iframe src="https://www.youtube-nocookie.com/embed/DatC-zM-qeU?si=yi5KYMK4Ln3801L1" title="2025馬來西亞公開賽精華" allowfullscreen loading="lazy"></iframe>
                                 </div>
                                 <div class="video-info">
                                     <div class="video-title">2025馬來西亞公開賽精華</div>
@@ -2243,7 +2283,7 @@
                             </div>
                             <div class="video-card">
                                 <div class="video-wrapper">
-                                    <iframe src="https://www.youtube-nocookie.com/embed/iss8Ihz4A6k?si=cfIJD3W-DNI4M3r9" title="2025馬來西亞公開賽碎片" allowfullscreen></iframe>
+                                    <iframe src="https://www.youtube-nocookie.com/embed/iss8Ihz4A6k?si=cfIJD3W-DNI4M3r9" title="2025馬來西亞公開賽碎片" allowfullscreen loading="lazy"></iframe>
                                 </div>
                                 <div class="video-info">
                                     <div class="video-title">2025馬來西亞公開賽碎片</div>
@@ -2265,28 +2305,28 @@
                         <p>回國後馬上又接著是樹林的雙人賽，剛好可以穿著馬來西亞的紀念衣打球， 7局的短賽制對於剛打完75分鐘加賽1局的我們，有點反差太大，常常覺得怎麼打一下下就結束了，幸運的撿到一個第三名。</p>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig135.JPG" alt="樹林水源盃季軍" style="width:400px;"> 
+                            <img src="images/fig135.jpeg" alt="樹林水源盃季軍" style="width:400px;" loading="lazy"> 
                             <div class="photo-caption">樹林水源盃季軍</div>
                         </div> 
                     </div>
                         <p>後續又搭飛機去澎湖參加菊島盃雙人賽，這邊場地的土厚到我覺得不是在打滾球，不過第一次來外島覺得很放鬆，能比賽又能去騎車兜風還挺棒的。</p>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig136.JPG" alt="菊島盃亞軍"> 
+                            <img src="images/fig136.jpeg" alt="菊島盃亞軍" loading="lazy"> 
                             <div class="photo-caption">菊島盃亞軍</div>
                         </div> 
                     </div>
                         <p>回國後馬上又接著是樹林的雙人賽，剛好可以穿著馬來西亞的紀念衣打球， 再隔一週又是月光盃與銘傳的兩位學弟搭檔，印象中這場比賽的射擊起伏偏大，有時打得非常好有時又不太理想，感覺每週不停比賽，身體累積的疲勞漸漸浮現。</p>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig137.JPG" alt="月光盃亞軍"> 
+                            <img src="images/fig137.jpeg" alt="月光盃亞軍" loading="lazy"> 
                             <div class="photo-caption">月光盃亞軍</div>
                         </div> 
                     </div>
                         <p>回到高雄參加金牌的會內團體賽，已經可以很確定是需要休息了，射擊的狀況完全跌到今年的最谷底，多少會有些在意，但好的休息肯定是最快恢復的方式。</p>
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="fig138.JPG" alt="金牌暮秋盃殿軍"> 
+                            <img src="images/fig138.jpeg" alt="金牌暮秋盃殿軍" loading="lazy"> 
                             <div class="photo-caption">金牌暮秋盃殿軍</div>
                         </div> 
                     </div>          
