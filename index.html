@@ -458,6 +458,19 @@
                 height: auto !important;     /* 高度自動計算，才不會照片變形 */
                 object-fit: contain;         /* 確保照片完整顯示，不會被裁切 */
             }
+    
+            /*  新增這段：強制修復影片爆版問題  */
+            .video-grid {
+                /* 原本是 minmax(320px, 1fr)，手機空間不夠，所以改為 1fr (填滿剩餘空間) */
+                grid-template-columns: minmax(0, 1fr) !important; 
+                gap: 20px; /* 間距稍微縮小一點 */
+            }
+
+            /* 確保影片卡片不會因為陰影或其他設定被切掉 */
+            .video-card {
+                width: 100%;
+                max-width: 100%;
+            }
         }
 
         .section-title { font-size: 32px; font-weight: 600; margin: 0 0 20px 0; color: #1d1d1f; }
@@ -1030,7 +1043,7 @@
                     
                     <div class="diary-gallery">
                         <div class="photo-frame">
-                            <img src="images/fig4.webp" alt="法式滾球" style="height:300px; object-fit: none;" loading="lazy">
+                            <img src="images/fig4.webp" alt="法式滾球" loading="lazy">
                             <div class="photo-caption">人生第一組自己的法式滾球</div>
                         </div>
                     </div>
