@@ -697,6 +697,14 @@
                 color: var(--accent);
             }
             .diary-content-card { padding: 25px; }
+
+            /*  新增這段：強制修復照片爆版問題  */
+            .photo-frame img {
+                width: 100% !important;      /* 強制寬度填滿格子 */
+                max-width: 100% !important;  /* 絕對不允許超過螢幕寬度 */
+                height: auto !important;     /* 高度自動計算，才不會照片變形 */
+                object-fit: contain;         /* 確保照片完整顯示，不會被裁切 */
+            }
         }
 
     </style>
