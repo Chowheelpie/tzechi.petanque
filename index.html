@@ -845,6 +845,38 @@
             font-weight: 500;
         }
 
+        /* --- 年度滾球日誌 --- */
+        #timelineBox::before { display: none; }
+        .diary-year-controls { display: flex; justify-content: flex-end; margin: 0 0 18px; }
+        .diary-sort-button { border: 1px solid #d2d2d7; background: #fff; color: #424245; border-radius: 999px; padding: 9px 14px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; transition: border-color .2s ease, color .2s ease, box-shadow .2s ease; }
+        .diary-sort-button:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 4px 12px rgba(0,113,227,.14); }
+        .diary-sort-button:focus-visible, .diary-year-card:focus-visible { outline: 3px solid rgba(0,113,227,.35); outline-offset: 3px; }
+        .annual-timeline { position: relative; display: grid; gap: 22px; }
+        .annual-timeline::before { content: ''; position: absolute; top: 32px; bottom: 32px; left: 30px; width: 2px; background: rgba(0,0,0,.12); }
+        .diary-year-group { position: relative; padding-left: 76px; }
+        .diary-year-group::before { content: ''; position: absolute; left: 20px; top: 28px; width: 16px; height: 16px; border: 4px solid #fff; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px rgba(0,0,0,.08); z-index: 1; }
+        .diary-year-card { position: relative; isolation: isolate; display: flex; width: 100%; min-height: 172px; align-items: flex-end; overflow: hidden; border: 0; border-radius: 22px; padding: 26px 30px; text-align: left; color: #fff; background-color: #1d1d1f; background-image: linear-gradient(90deg, rgba(0,0,0,.72), rgba(0,0,0,.18)), var(--year-image); background-position: center; background-size: cover; cursor: pointer; box-shadow: 0 10px 28px rgba(0,0,0,.12); transition: transform .25s ease, box-shadow .25s ease; }
+        .diary-year-card:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(0,0,0,.18); }
+        .diary-year-card-content { position: relative; z-index: 1; }
+        .diary-year-title { display: block; font-family: "SF Pro Display", sans-serif; font-size: clamp(34px, 6vw, 56px); font-weight: 700; letter-spacing: -.03em; line-height: 1; }
+        .diary-year-meta { display: block; margin-top: 10px; font-size: 14px; font-weight: 600; }
+        .diary-year-toggle { position: absolute; right: 24px; top: 24px; z-index: 1; display: grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; background: rgba(255,255,255,.22); font-size: 22px; line-height: 1; transition: transform .2s ease, background .2s ease; }
+        .diary-year-card[aria-expanded="true"] .diary-year-toggle { background: rgba(255,255,255,.32); transform: rotate(45deg); }
+        .diary-year-entries { display: grid; gap: 26px; margin-top: 22px; }
+        .diary-year-entries[hidden] { display: none; }
+        .diary-year-entries .timeline-entry { margin: 0; padding: 0; }
+        .diary-year-entries .timeline-dot { display: none; }
+        .diary-year-entries .timeline-date-label { position: static; width: auto; margin: 0 0 9px; color: var(--accent); text-align: left; font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .annual-timeline::before { left: 14px; }
+            .diary-year-group { padding-left: 38px; }
+            .diary-year-group::before { left: 5px; top: 25px; width: 14px; height: 14px; }
+            .diary-year-card { min-height: 150px; padding: 22px; border-radius: 18px; }
+            .diary-year-toggle { top: 18px; right: 18px; }
+            .diary-year-entries .diary-content-card { padding: 22px; }
+        }
+
         @media (max-width: 768px) {
             .timeline-container::before { left: 20px; }
             .timeline-entry { padding-left: 50px; }
@@ -2795,6 +2827,100 @@
             window.requestAnimationFrame(step);
         }
 
+        // --- 5. 年度日誌分組與排序 ---
+        function initializeDiaryYears() {
+            const timeline = document.getElementById('timelineBox');
+            if (!timeline || timeline.dataset.grouped === 'true') return;
+
+            const entries = Array.from(timeline.querySelectorAll(':scope > .timeline-entry'));
+            const yearGroups = new Map();
+
+            entries.forEach(entry => {
+                const label = entry.querySelector('.timeline-date-label')?.textContent.trim() || '';
+                const range = label.match(/^(\d{4}),\s*(\d{4})/);
+                const yearMatch = label.match(/\b(20\d{2})\b/);
+                if (!yearMatch) return;
+
+                const sortYear = Number(yearMatch[1]);
+                const displayYear = range ? `${range[1]}–${range[2]}` : yearMatch[1];
+                if (!yearGroups.has(displayYear)) {
+                    yearGroups.set(displayYear, { displayYear, sortYear, entries: [] });
+                }
+                yearGroups.get(displayYear).entries.push(entry);
+            });
+
+            const controls = document.createElement('div');
+            controls.className = 'diary-year-controls';
+            const sortButton = document.createElement('button');
+            sortButton.type = 'button';
+            sortButton.className = 'diary-sort-button';
+            controls.appendChild(sortButton);
+
+            const annualTimeline = document.createElement('div');
+            annualTimeline.className = 'annual-timeline';
+            const groups = Array.from(yearGroups.values());
+
+            groups.forEach(group => {
+                const groupElement = document.createElement('article');
+                groupElement.className = 'diary-year-group';
+                groupElement.dataset.sortYear = group.sortYear;
+
+                const card = document.createElement('button');
+                card.type = 'button';
+                card.className = 'diary-year-card';
+                card.setAttribute('aria-expanded', 'false');
+                const firstImage = group.entries.map(entry => entry.querySelector('.diary-gallery img, img')).find(Boolean);
+                if (firstImage?.getAttribute('src')) {
+                    const imageUrl = firstImage.getAttribute('src').replace(/"/g, '%22');
+                    card.style.setProperty('--year-image', `url("${imageUrl}")`);
+                }
+
+                const cardContent = document.createElement('span');
+                cardContent.className = 'diary-year-card-content';
+                cardContent.innerHTML = `<span class="diary-year-title">${group.displayYear}</span><span class="diary-year-meta">${group.entries.length} 篇日誌 · 點擊展開</span>`;
+                const toggle = document.createElement('span');
+                toggle.className = 'diary-year-toggle';
+                toggle.setAttribute('aria-hidden', 'true');
+                toggle.textContent = '+';
+                card.append(cardContent, toggle);
+
+                const entryPanel = document.createElement('div');
+                entryPanel.className = 'diary-year-entries';
+                entryPanel.hidden = true;
+                group.entries.forEach(entry => entryPanel.appendChild(entry));
+                card.addEventListener('click', () => {
+                    const isOpen = card.getAttribute('aria-expanded') === 'true';
+                    card.setAttribute('aria-expanded', String(!isOpen));
+                    entryPanel.hidden = isOpen;
+                    cardContent.querySelector('.diary-year-meta').textContent = isOpen
+                        ? `${group.entries.length} 篇日誌 · 點擊展開`
+                        : `${group.entries.length} 篇日誌 · 點擊收合`;
+                });
+
+                groupElement.append(card, entryPanel);
+                annualTimeline.appendChild(groupElement);
+            });
+
+            let newestFirst = true;
+            function sortGroups() {
+                Array.from(annualTimeline.children)
+                    .sort((a, b) => newestFirst
+                        ? Number(b.dataset.sortYear) - Number(a.dataset.sortYear)
+                        : Number(a.dataset.sortYear) - Number(b.dataset.sortYear))
+                    .forEach(group => annualTimeline.appendChild(group));
+                sortButton.textContent = newestFirst ? '↓ 最新在上' : '↑ 最早在上';
+                sortButton.setAttribute('aria-label', newestFirst ? '切換為最早年份在上' : '切換為最新年份在上');
+            }
+
+            sortButton.addEventListener('click', () => {
+                newestFirst = !newestFirst;
+                sortGroups();
+            });
+            sortGroups();
+            timeline.replaceChildren(controls, annualTimeline);
+            timeline.dataset.grouped = 'true';
+        }
+
         // --- 4. YouTube 公開統計 ---
         let youtubeStats = null;
 
@@ -2828,7 +2954,7 @@
             }
         }
 
-        // --- 5. 日誌展開功能 ---
+        // --- 6. 日誌展開功能 ---
         function expandDiary() {
             const box = document.getElementById('timelineBox');
             const overlay = document.getElementById('timelineOverlay');
@@ -2840,6 +2966,7 @@
         window.onload = function() {
             handleInitialLoad(); // 根據網址載入對應分頁
             loadYouTubeStats();
+            initializeDiaryYears();
             
             // 處理 YouTube 偽裝面板
             var facades = document.querySelectorAll('.youtube-facade');
