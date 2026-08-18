@@ -572,7 +572,13 @@
         }
 
         .section-title { font-size: 32px; font-weight: 600; margin: 0 0 20px 0; color: #1d1d1f; }
-        footer { text-align: center; padding: 40px; color: #86868b; font-size: 12px; border-top: 1px solid #ddd; }
+        footer { text-align: center; padding: 32px 24px; color: #86868b; font-size: 12px; border-top: 1px solid #ddd; }
+        .social-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 0 auto 20px; max-width: 760px; }
+        .social-link { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid #d2d2d7; border-radius: 999px; background: rgba(255,255,255,0.72); color: #424245; font-size: 13px; font-weight: 600; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+        .social-link:hover { border-color: var(--accent); box-shadow: 0 4px 14px rgba(0,113,227,.16); color: var(--accent); transform: translateY(-1px); }
+        .social-link:focus-visible { outline: 3px solid rgba(0,113,227,.35); outline-offset: 3px; }
+        .social-icon { width: 18px; height: 18px; flex: 0 0 18px; fill: currentColor; }
+        @media (max-width: 480px) { .social-links { align-items: stretch; flex-direction: column; } .social-link { justify-content: center; } }
         
         .coming-soon-card {
             background: rgba(255, 255, 255, 0.4);
@@ -918,8 +924,8 @@
                 <div class="mini-stat-item">
                     <span class="stat-label"><span class="stat-icon">▶️</span> YouTube Views</span>
                     <div class="stat-value-row">
-                        <h3 id="views-counter">0</h3>
-                        <div class="mini-subtext">490+ Subscribers</div>
+                        <h3 id="views-counter" aria-live="polite">—</h3>
+                        <div class="mini-subtext" id="subscribers-counter" aria-live="polite">載入中…</div>
                     </div>
                 </div>
             </div>
@@ -2630,7 +2636,25 @@
     </section>
 
     <footer>
-        &copy; 2025 子齊的滾球個人網站. All rights reserved.
+        <div class="social-links" aria-label="社群連結">
+            <a class="social-link" href="https://www.instagram.com/chofizzd/" target="_blank" rel="noopener noreferrer" aria-label="Instagram：chofizzd（於新分頁開啟）">
+                <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5Zm0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5ZM17.25 6a1.25 1.25 0 1 1-1.25 1.25A1.25 1.25 0 0 1 17.25 6Z"/></svg>
+                <span>Instagram</span>
+            </a>
+            <a class="social-link" href="https://www.facebook.com/liao.zi.qi.162220" target="_blank" rel="noopener noreferrer" aria-label="Facebook（於新分頁開啟）">
+                <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-8h2.75l.41-3h-3.16V8.09c0-.87.24-1.46 1.49-1.46H16.6V3.95A21.8 21.8 0 0 0 14.25 3c-2.33 0-3.93 1.42-3.93 4.03V10H7.68v3h2.64v8h3.18Z"/></svg>
+                <span>Facebook</span>
+            </a>
+            <a class="social-link" href="https://youtube.com/channel/UCtuaDBqzzl-h9XHtZcODfCQ?si=KEpL71muZnN-tKuW" target="_blank" rel="noopener noreferrer" aria-label="YouTube 主頻道（於新分頁開啟）">
+                <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.11-2.12C19.53 3.5 12 3.5 12 3.5s-7.53 0-9.39.58A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.11 2.12C4.47 20.5 12 20.5 12 20.5s7.53 0 9.39-.58a3 3 0 0 0 2.11-2.12A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8ZM9.6 15.57V8.43L15.87 12 9.6 15.57Z"/></svg>
+                <span>YouTube 主頻道</span>
+            </a>
+            <a class="social-link" href="https://youtube.com/channel/UCmXY3C4FNT8GQLuLhuQy-nA?si=0lMUBY1MBhPWkXZI" target="_blank" rel="noopener noreferrer" aria-label="YouTube 滾球記錄（於新分頁開啟）">
+                <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.11-2.12C19.53 3.5 12 3.5 12 3.5s-7.53 0-9.39.58A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.11 2.12C4.47 20.5 12 20.5 12 20.5s7.53 0 9.39-.58a3 3 0 0 0 2.11-2.12A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8ZM9.6 15.57V8.43L15.87 12 9.6 15.57Z"/></svg>
+                <span>YouTube 滾球記錄</span>
+            </a>
+        </div>
+        <div>&copy; 2025 子齊的滾球個人網站. All rights reserved.</div>
     </footer>
 
     <script>
@@ -2665,7 +2689,7 @@
             if(pageId === 'home') {
                 updatePreciseAge();
                 animateValue("matches-counter", 0, 126, 2000); 
-                animateValue("views-counter", 0, 148621, 2500); 
+                animateYouTubeStats();
             }
         }
 
@@ -2724,7 +2748,40 @@
             window.requestAnimationFrame(step);
         }
 
-        // --- 4. 日誌展開功能 ---
+        // --- 4. YouTube 公開統計 ---
+        let youtubeStats = null;
+
+        function animateYouTubeStats() {
+            const viewsCounter = document.getElementById('views-counter');
+            const subscribersCounter = document.getElementById('subscribers-counter');
+            if (!youtubeStats) {
+                viewsCounter.textContent = '—';
+                subscribersCounter.textContent = '資料更新中…';
+                return;
+            }
+
+            animateValue('views-counter', 0, youtubeStats.viewCount, 2500);
+            subscribersCounter.textContent = youtubeStats.hiddenSubscriberCount
+                ? '訂閱數未公開'
+                : `${youtubeStats.subscriberCount.toLocaleString()} Subscribers`;
+        }
+
+        async function loadYouTubeStats() {
+            try {
+                const response = await fetch('data/youtube-stats.json', { cache: 'no-store' });
+                if (!response.ok) throw new Error(`Unable to load YouTube statistics: ${response.status}`);
+                const data = await response.json();
+                if (!Number.isFinite(data.viewCount)) throw new Error('Invalid YouTube view count');
+                youtubeStats = data;
+                animateYouTubeStats();
+            } catch (error) {
+                console.warn('YouTube statistics could not be loaded.', error);
+                document.getElementById('views-counter').textContent = '—';
+                document.getElementById('subscribers-counter').textContent = '暫時無法載入';
+            }
+        }
+
+        // --- 5. 日誌展開功能 ---
         function expandDiary() {
             const box = document.getElementById('timelineBox');
             const overlay = document.getElementById('timelineOverlay');
@@ -2735,6 +2792,7 @@
         // --- 5. 頁面載入執行 ---
         window.onload = function() {
             handleInitialLoad(); // 根據網址載入對應分頁
+            loadYouTubeStats();
             
             // 處理 YouTube 偽裝面板
             var facades = document.querySelectorAll('.youtube-facade');

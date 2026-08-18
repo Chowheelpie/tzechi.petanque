@@ -1,0 +1,39 @@
+name: Update YouTube statistics
+
+on:
+  schedule:
+    # 01:00 UTC is 09:00 in Taiwan (UTC+8).
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-statistics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch current YouTube statistics
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: node scripts/update-youtube-stats.mjs
+
+      - name: Commit changed statistics
+        run: |
+          if git diff --quiet -- data/youtube-stats.json; then
+            echo "No statistics changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/youtube-stats.json
+          git commit -m "Update YouTube statistics"
+          git push
